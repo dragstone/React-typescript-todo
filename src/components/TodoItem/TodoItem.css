@@ -1,0 +1,41 @@
+.form-section {
+  display: flex;
+  width: 100%;
+  border-radius: 5px;
+  padding: 2px;
+  margin-top: 15px;
+  background-image: url("https://img.freepik.com/free-photo/crumpled-yellow-paper-background-close-up_60487-2390.jpg?size=626&ext=jpg");
+}
+
+.todo-text {
+  flex: 1;
+  border: none;
+  font-size: 15px;
+  text-align: start;
+  padding: 0px 20px;
+}
+
+.icon {
+  margin-left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  top: 22px;
+  left: 5px;
+}
+
+.icon-section {
+  margin-right: 22px;
+}
+
+.edit-input {
+  margin: 17px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  width: 59%;
+}
+
+.complete-todo {
+  text-decoration: line-through;
+}

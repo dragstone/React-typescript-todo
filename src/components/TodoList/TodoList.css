@@ -1,0 +1,12 @@
+.todos {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 500px) {
+  .todos {
+    width: 90%;
+  }
+}

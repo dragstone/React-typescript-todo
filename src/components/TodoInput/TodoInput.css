@@ -1,0 +1,24 @@
+.input-section {
+  margin: 20px 0;
+}
+
+.input-section input[type="text"] {
+  max-width: 300px;
+  padding: 7px 5px;
+  border: none;
+  font-size: 18px;
+}
+
+.input-section button {
+  padding: 8px 10px;
+  background-color: #2f74c0;
+  color: white;
+  border: 1px solid #fff;
+  font-size: 15px;
+}
+
+@media (max-width: 500px) {
+  .input-section input[type="text"] {
+    max-width: 120px;
+  }
+}
