@@ -1,0 +1,14 @@
+.todo {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 500px;
+  margin: 10px auto;
+}
+
+@media (max-width: 500px) {
+  .todo {
+    width: 300px;
+  }
+}

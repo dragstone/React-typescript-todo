@@ -1,29 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
+import { observer } from "mobx-react-lite";
+import { AppContext } from "../../store/AppProvider";
 import "./TodoInput.css";
 
 type todoInputProps = {
   inputVal: string;
   setInputVal: React.Dispatch<React.SetStateAction<string>>;
-  handleAddTodo: (e: React.FormEvent) => void;
 };
 
-const TodoInput: React.FC<todoInputProps> = ({
-  inputVal,
-  setInputVal,
-  handleAddTodo,
-}) => {
-  return (
-    <>
-      <form className="input-section" onSubmit={handleAddTodo}>
-        <input
-          value={inputVal}
-          onChange={(e) => setInputVal(e.target.value)}
-          type="text"
-        />
-        <button>Add Todo</button>
-      </form>
-    </>
-  );
-};
+const TodoInput: React.FC<todoInputProps> = observer(
+  ({ inputVal, setInputVal }) => {
+    const todoStore = useContext(AppContext);
+    return (
+      <>
+        <form
+          className="input-section"
+          onSubmit={(e) => todoStore?.store.todo.handleAddTodo(e, inputVal)}
+        >
+          <input
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
+            type="text"
+          />
+          <button>Add Todo</button>
+        </form>
+      </>
+    );
+  }
+);
 
 export default TodoInput;

@@ -1,17 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { todoModel } from "../../models/todoModel";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import { ImCheckmark } from "react-icons/im";
+import { observer } from "mobx-react-lite";
+import { AppContext } from "../../store/AppProvider";
 import "./TodoItem.css";
 
 type todoItemProps = {
   todo: todoModel;
-  todos: todoModel[];
-  setTodos: React.Dispatch<React.SetStateAction<todoModel[]>>;
 };
 
-const TodoItem: React.FC<todoItemProps> = ({ todo, todos, setTodos }) => {
+const TodoItem: React.FC<todoItemProps> = observer(({ todo }) => {
+  const todoStore = useContext(AppContext);
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.title);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -20,31 +21,15 @@ const TodoItem: React.FC<todoItemProps> = ({ todo, todos, setTodos }) => {
     inputRef.current?.focus();
   }, [edit]);
 
-  const handleDelete = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const handleComplete = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  const handleEdit = (e: React.FormEvent, id: number) => {
-    e.preventDefault();
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, title: editTodo } : todo
-      )
-    );
-    setEdit(false);
-  };
-
   return (
     <>
-      <form className="form-section" onSubmit={(e) => handleEdit(e, todo.id)}>
+      <form
+        className="form-section"
+        onSubmit={(e) => {
+          todoStore?.store.todo.handleEdit(e, todo.id, editTodo);
+          setEdit(false);
+        }}
+      >
         {edit ? (
           <input
             className="edit-input"
@@ -59,7 +44,10 @@ const TodoItem: React.FC<todoItemProps> = ({ todo, todos, setTodos }) => {
         )}
 
         <div className="icon-section">
-          <span className="icon" onClick={() => handleDelete(todo.id)}>
+          <span
+            className="icon"
+            onClick={() => todoStore?.store.todo.handleDelete(todo.id)}
+          >
             <AiTwotoneDelete />
           </span>
 
@@ -73,12 +61,15 @@ const TodoItem: React.FC<todoItemProps> = ({ todo, todos, setTodos }) => {
           >
             <MdEdit />
           </span>
-          <span className="icon" onClick={() => handleComplete(todo.id)}>
+          <span
+            className="icon"
+            onClick={() => todoStore?.store.todo.handleComplete(todo.id)}
+          >
             <ImCheckmark />
           </span>
         </div>
       </form>
     </>
   );
-};
+});
 export default TodoItem;

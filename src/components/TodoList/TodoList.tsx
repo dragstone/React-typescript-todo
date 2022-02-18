@@ -1,27 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { todoModel } from "../../models/todoModel";
 import TodoItem from "../TodoItem/TodoItem";
+import { observer } from "mobx-react-lite";
+import { AppContext } from "../../store/AppProvider";
 import "./TodoList.css";
 
-type todoListProps = {
-  todos: todoModel[];
-  setTodos: React.Dispatch<React.SetStateAction<todoModel[]>>;
-};
-
-const TodoList: React.FC<todoListProps> = ({ todos, setTodos }) => {
+const TodoList: React.FC = observer(() => {
+  const todoStore = useContext(AppContext);
   return (
     <div className="todos">
-      {todos.map((todo) => {
-        return (
-          <TodoItem
-            todo={todo}
-            key={todo.id}
-            todos={todos}
-            setTodos={setTodos}
-          />
-        );
+      {todoStore?.store.todo.todoList.map((todo) => {
+        return <TodoItem todo={todo} key={todo.id} />;
       })}
     </div>
   );
-};
+});
 export default TodoList;
